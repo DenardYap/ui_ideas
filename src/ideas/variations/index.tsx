@@ -36,20 +36,6 @@ type Frame = {
   items: Item[];
 };
 
-const LAMP: Frame = {
-  id: 'lamp',
-  aspectRatio: '947 / 914',
-  credit: {
-    label: 'Photography',
-    source: 'In Common With',
-    href: 'https://www.incommonwith.com/products/eave-floor-lamp-oxide-red-black',
-  },
-  items: [
-    { id: 'off', src: '/incommonwith/light-off.jpg', Icon: LightbulbOff },
-    { id: 'on', src: '/incommonwith/light-on.jpg', Icon: Lightbulb },
-  ],
-};
-
 const NOVOWYR: Frame = {
   id: 'novowyr',
   aspectRatio: '1 / 1',
