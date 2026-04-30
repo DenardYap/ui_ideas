@@ -1,6 +1,24 @@
-import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from '@/lib/ideas';
 import { cn } from '@/lib/utils';
+
+/**
+ * True when the current subtree is rendered inside a non-interactive
+ * preview (e.g. an idea card). Components should avoid emitting <a>
+ * elements here since the preview itself sits inside a Link.
+ */
+const PreviewContext = createContext(false);
+
+export function useIsInPreview() {
+  return useContext(PreviewContext);
+}
 
 type Props = {
   children: ReactNode;
@@ -46,7 +64,9 @@ export function IdeaPreview({ children, className, interactive = false }: Props)
           pointerEvents: interactive ? 'auto' : 'none',
         }}
       >
-        {children}
+        <PreviewContext.Provider value={!interactive}>
+          {children}
+        </PreviewContext.Provider>
       </div>
     </div>
   );

@@ -36,20 +36,13 @@ export function IdeaCard({ idea, index }: Props) {
         </div>
 
         {/* metadata */}
-        <div className="mt-4 grid grid-cols-[auto_1fr_auto] items-baseline gap-x-4">
+        <div className="mt-4 grid grid-cols-[auto_1fr] items-baseline gap-x-4">
           <span className="font-mono text-[11px] tracking-[0.18em] text-ink-muted">
             N°{num}
           </span>
           <h3 className="font-display text-[22px] font-medium leading-tight tracking-[-0.01em] text-ink transition-colors group-hover:text-accent">
             {idea.name}
           </h3>
-          {idea.accent && (
-            <span
-              className="h-3 w-3 rounded-full ring-1 ring-ink/10"
-              style={{ background: idea.accent }}
-              aria-hidden
-            />
-          )}
         </div>
         <p className="mt-1.5 max-w-[44ch] pl-[44px] text-[13.5px] leading-relaxed text-ink-muted">
           {idea.blurb}

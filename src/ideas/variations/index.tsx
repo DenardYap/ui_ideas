@@ -12,6 +12,7 @@ import {
   Sun,
   type LucideIcon,
 } from 'lucide-react';
+import { useIsInPreview } from '@/components/idea-preview';
 
 type Item = {
   id: string;
@@ -79,13 +80,13 @@ const SEASONS: Frame = {
   ],
 };
 
-const FRAMES: Frame[] = [LAMP, NOVOWYR, SEASONS];
+const FRAMES: Frame[] = [NOVOWYR, SEASONS];
 const AUTOPLAY_MS = 4500;
 
 export default function Variations() {
   return (
     <div className="relative h-full w-full overflow-hidden bg-[#ece6db] [font-family:'Inter_Tight',sans-serif]">
-      <div className="absolute inset-0 grid grid-cols-3 items-center gap-6 px-8 py-10">
+      <div className="absolute inset-0 grid grid-cols-2 items-center gap-6 px-8 py-10">
         {FRAMES.map((frame) => (
           <CrossfadeFrame key={frame.id} frame={frame} />
         ))}
@@ -171,7 +172,11 @@ function CrossfadeFrame({ frame }: { frame: Frame }) {
   );
 }
 
+const PILL_CLASSNAME =
+  'inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] shadow-md shadow-black/5 backdrop-blur transition hover:bg-white';
+
 function CreditPill({ credit }: { credit: FrameCredit }) {
+  const inPreview = useIsInPreview();
   const inner = (
     <>
       <span className="text-neutral-500">{credit.label}</span>
@@ -184,13 +189,17 @@ function CreditPill({ credit }: { credit: FrameCredit }) {
       )}
     </>
   );
-  const className =
-    'inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] shadow-md shadow-black/5 backdrop-blur transition hover:bg-white';
-  return credit.href ? (
-    <a href={credit.href} target="_blank" rel="noreferrer" className={className}>
+  return credit.href && !inPreview ? (
+    <a
+      href={credit.href}
+      target="_blank"
+      rel="noreferrer"
+      className={PILL_CLASSNAME}
+    >
       {inner}
     </a>
   ) : (
-    <span className={className}>{inner}</span>
+    <span className={PILL_CLASSNAME}>{inner}</span>
   );
 }
+

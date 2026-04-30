@@ -62,6 +62,39 @@ npm run build    # type-check + production build
 That's it — it appears on the home grid (live preview, scaled to fit) and at
 `/idea/my-idea`.
 
+## Copy as prompt
+
+Every idea page has a **Copy prompt** pill (top-left chrome). It opens a sheet
+with a ready-to-paste markdown prompt that bundles:
+
+- the idea's name, blurb, tags, and credits,
+- a link to a reference image (if `screenshot` is set on the idea — see below),
+- the live demo URL, so the agent can navigate to it,
+- the full source of `src/ideas/<slug>/index.tsx`.
+
+The intent: anyone can grab the prompt, paste it into Cursor (or any coding
+agent), and have the model rebuild the specimen against their own stack.
+
+### Reference screenshots
+
+To give the agent a static image to "see" the design, drop a screenshot under
+`public/screenshots/<slug>.png` (any web image format works) and add it to the
+idea entry:
+
+```ts
+{
+  slug: 'my-idea',
+  // …
+  screenshot: '/screenshots/my-idea.png',
+  Component: MyIdea,
+}
+```
+
+The prompt embeds an absolute URL (`window.location.origin + screenshot`), so
+once the site is deployed, the agent can fetch the image directly. If
+`screenshot` is omitted, the prompt simply tells the agent to open the live
+demo URL instead.
+
 ## How the live preview works
 
 `<IdeaPreview>` renders the idea at a fixed 1280×800 design viewport, then
@@ -84,14 +117,17 @@ src/
   components/
     idea-card.tsx        ← grid card with live preview + metadata
     idea-preview.tsx     ← fixed-viewport scaler
+    prompt-modal.tsx     ← "Copy prompt" sheet on the idea page
     search-bar.tsx
   pages/
     gallery.tsx          ← home, filterable grid
     idea-page.tsx        ← full-screen idea + floating back nav
   stores/
     gallery-store.ts     ← Zustand: search query
+    prompt-store.ts      ← Zustand: copy-prompt sheet open/close
   lib/
     ideas.ts             ← Idea type + helpers
+    prompt.ts            ← raw-source loader + markdown prompt builder
     utils.ts             ← `cn` (clsx + tailwind-merge)
 ```
 # ui_ideas

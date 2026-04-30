@@ -1,11 +1,14 @@
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ClipboardCopy } from 'lucide-react';
 import { getIdeaBySlug } from '@/ideas';
 import type { IdeaCredit } from '@/lib/ideas';
+import { usePromptStore } from '@/stores/prompt-store';
+import { PromptModal } from '@/components/prompt-modal';
 
 export function IdeaPage() {
   const { slug } = useParams<{ slug: string }>();
   const idea = slug ? getIdeaBySlug(slug) : undefined;
+  const openPrompt = usePromptStore((s) => s.open);
 
   if (!idea) return <NotFound />;
   const { Component, credits } = idea;
@@ -30,10 +33,20 @@ export function IdeaPage() {
         <span className="pointer-events-none rounded-full bg-black/70 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.25em] text-white backdrop-blur">
           {idea.name}
         </span>
+        <button
+          type="button"
+          onClick={() => openPrompt(idea.slug)}
+          className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/85 px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.25em] text-neutral-900 shadow-lg shadow-black/5 backdrop-blur transition hover:bg-white"
+        >
+          <ClipboardCopy className="h-3 w-3" strokeWidth={2.5} />
+          Copy prompt
+        </button>
         {credits?.map((c, i) => (
           <CreditPill key={`${c.source}-${i}`} credit={c} />
         ))}
       </div>
+
+      <PromptModal />
     </div>
   );
 }
