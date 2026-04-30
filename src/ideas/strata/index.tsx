@@ -69,6 +69,8 @@ export default function Strata() {
   const [tier, setTier] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [dragDelta, setDragDelta] = useState(0);
+  // Captured at the start of a drag so render can compute card position purely.
+  const [dragStartLift, setDragStartLift] = useState(0);
   const startYRef = useRef(0);
   const startTierRef = useRef(1);
 
@@ -112,6 +114,7 @@ export default function Strata() {
   function onPointerDown(e: React.PointerEvent) {
     startYRef.current = e.clientY;
     startTierRef.current = tier;
+    setDragStartLift(liftFor(tier));
     setIsDragging(true);
     (e.currentTarget as Element).setPointerCapture(e.pointerId);
   }
@@ -143,9 +146,7 @@ export default function Strata() {
     }
   }
 
-  const cardY = isDragging
-    ? liftFor(startTierRef.current) + dragDelta
-    : liftFor(tier);
+  const cardY = isDragging ? dragStartLift + dragDelta : liftFor(tier);
 
   return (
     <div

@@ -46,11 +46,6 @@ function Palette({ onClose }: { onClose: () => void }) {
     return matches.slice(0, RESULT_LIMIT);
   }, [query]);
 
-  // Reset highlight whenever the result set changes.
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
-
   // Focus the input on open and lock body scroll while the palette is up.
   useEffect(() => {
     inputRef.current?.focus();
@@ -137,7 +132,10 @@ function Palette({ onClose }: { onClose: () => void }) {
           <input
             ref={inputRef}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActiveIndex(0);
+            }}
             placeholder="Search by name, tag, vibe …"
             aria-label="Search ideas"
             className="min-w-0 flex-1 bg-transparent font-display text-[19px] font-light tracking-[-0.005em] text-ink placeholder:text-ink-muted/60 focus:outline-none"

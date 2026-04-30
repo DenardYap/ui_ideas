@@ -161,7 +161,6 @@ export default function Lumen() {
       inside: false,
       intensity: 1, // animated for click pulse feedback
     };
-    let frame = 0;
     let raf = 0;
 
     function resize() {
@@ -181,8 +180,6 @@ export default function Lumen() {
     }
 
     function tick() {
-      frame++;
-
       /* If the user isn't holding the lamp, it wanders softly. */
       if (!lamp.inside) {
         if (Math.random() < 0.012) {

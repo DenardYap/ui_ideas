@@ -5,14 +5,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Leaf,
-  Lightbulb,
-  LightbulbOff,
   Snowflake,
   Sprout,
   Sun,
   type LucideIcon,
 } from 'lucide-react';
-import { useIsInPreview } from '@/components/idea-preview';
+import { useIsInPreview } from '@/components/idea-preview-context';
 
 type Item = {
   id: string;

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 type Item = {
   n: string;
@@ -36,23 +36,19 @@ const TOTAL_TRAVEL =
 const AUTO_SPEED = 90;                      // px per second of idle drift
 const IDLE_BEFORE_AUTO = 1500;              // ms after last user input before resuming
 
+// Background star field — generated once at module load so renders stay pure.
+const STARS = Array.from({ length: 90 }, () => ({
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  size: 0.5 + Math.random() * 1.6,
+  opacity: 0.08 + Math.random() * 0.28,
+}));
+
 export default function Orbit() {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const spacerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLElement | null)[]>([]);
-
-  // Generate background star field once
-  const stars = useMemo(
-    () =>
-      Array.from({ length: 90 }, () => ({
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size: 0.5 + Math.random() * 1.6,
-        opacity: 0.08 + Math.random() * 0.28,
-      })),
-    [],
-  );
 
   useEffect(() => {
     const container = containerRef.current;
@@ -169,7 +165,7 @@ export default function Orbit() {
     >
       {/* Subtle starfield background */}
       <div className="pointer-events-none absolute inset-0">
-        {stars.map((s, i) => (
+        {STARS.map((s, i) => (
           <span
             key={i}
             className="absolute rounded-full bg-white"

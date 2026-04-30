@@ -1,6 +1,4 @@
 import {
-  createContext,
-  useContext,
   useLayoutEffect,
   useRef,
   useState,
@@ -8,17 +6,7 @@ import {
 } from 'react';
 import { PREVIEW_HEIGHT, PREVIEW_WIDTH } from '@/lib/ideas';
 import { cn } from '@/lib/utils';
-
-/**
- * True when the current subtree is rendered inside a non-interactive
- * preview (e.g. an idea card). Components should avoid emitting <a>
- * elements here since the preview itself sits inside a Link.
- */
-const PreviewContext = createContext(false);
-
-export function useIsInPreview() {
-  return useContext(PreviewContext);
-}
+import { PreviewContext } from './idea-preview-context';
 
 type Props = {
   children: ReactNode;
