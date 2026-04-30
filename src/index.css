@@ -1,0 +1,43 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-paper: #f4f1ea;
+  --color-paper-dark: #ebe6da;
+  --color-ink: #14110f;
+  --color-ink-soft: #2b2520;
+  --color-ink-muted: #6b6258;
+  --color-accent: #d24c1e;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+/* Subtle paper grain on the gallery surface */
+.paper-grain {
+  background-image:
+    radial-gradient(rgba(20, 17, 15, 0.045) 1px, transparent 1px),
+    radial-gradient(rgba(20, 17, 15, 0.03) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+}
